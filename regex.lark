@@ -1,0 +1,42 @@
+start		: regex
+
+regex		: regex_ere
+		| regex_bre
+
+regex_ere	: rex~{1,20}
+
+rex		: letter 
+          	| ( range
+            	| rex repetition
+            	| rex "|" rex
+            	| ( "(" rex ")" | "\\" num.dec)
+            	| "\\" ("w" | "W" | "<" | ">" | "b" | "B" | "`" | "'" | "r" | "n")
+            	| "(" rex+ ")" )
+
+repetition	: "*" | "+" | "?"
+         	| "{" num.natural "}"
+         	| "{" num.natural "," "}"
+         	| "{" "," num.natural"}"
+         	| "{" num.natural "," num.natural "}"
+
+range		: "[" ("^" | "") range-elt* ("" | "$") "]"
+
+letter		: [0-9a-z]
+
+named-range-elt	: "[:alnum:]"
+		| "[:alpha:]"
+		| "[:cntrl:]"
+		| "[:digit:]"
+		| "[:graph:]"
+		| "[:lower:]"
+		| "[:print:]"
+		| "[:punct:]"
+		| "[:space:]"
+		| "[:upper:]"
+		| "[:xdigit:]"
+
+range-elt	: named-range-elt
+         	| letter
+         	| letter "-" letter
+
+regex_bre	:

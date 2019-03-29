@@ -1,0 +1,50 @@
+start		: report
+report		: lines
+
+line		: test
+		| success
+		| failure
+		| error
+		| skip
+		| xfail
+		| uxsuccess
+		| progress
+		| tags
+		| time
+
+lines		: line ("\n" line)+
+
+test		: "test"|"testing"|"test:"|"testing:" "test" label
+success		: "success"|"success:"|"successful"|"successful:" "test" label details?
+failure		: "failure:" "test" label details?
+error		: "error:" "test" label details?
+skip		: "skip:" "test" label details?
+xfail		: "xfail:" "test" label details?
+uxsuccess	: "uxsuccess:" "test" label details?
+progress	: ("+"|"-" NUMBER) | "push" | "pop"
+tags		: "-"? tag+
+time		: NOZERO~4 "-" NOZERO~2 "-" NOZERO~2 NOZERO~2":"NOZERO~2":"NOZERO~2"Z"
+
+label		: word
+details		: bracketed | multipart
+bracketed	: "[" CR utf8-lines "]" CR
+multipart	: "[ multipart" CR part+ "]" CR
+part		: part_type CR word CR part_bytes CR
+part_type	: "Content-Type: type(;parameter=value,parameter=value)"	// FIXME
+part_bytes	: (NUMBER CR)+ "0" CR						// FIXME
+tag		: words
+utf8-lines	: words (CR words)+
+
+LF		: /\n/
+CR		: /\n/
+NEWLINE		: (CR? LF)+
+DIGIT		: "0".."9"
+NOZERO		: "1".."9"
+NUMBER		: NOZERO?DIGIT+
+
+LCASE_LETTER	: "a".."z"
+UCASE_LETTER	: "A".."Z"
+alpha		: LCASE_LETTER | UCASE_LETTER
+alphanum	: alpha | DIGIT
+word		: alphanum+
+words		: word (" " word)+

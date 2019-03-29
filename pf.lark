@@ -1,0 +1,210 @@
+# OpenBSD Packet filter syntax
+# Grammar source - https://man.openbsd.org/pf.conf#GRAMMAR
+
+start		: line
+line		: option
+		| pf-rule
+		| antispoof-rule
+		| queue-rule
+		| anchor-rule
+		| anchor-close
+		| load-anchor
+		| table-rule
+		| include
+
+option		: "set" ( [ "timeout" ( timeout | "{" timeout-list "}" ) ] |
+                 [ "ruleset-optimization" [ "none" | "basic" |
+                 "profile" ] ] |
+                 [ "optimization" [ "default" | "normal" | "high-latency" |
+                 "satellite" | "aggressive" | "conservative" ] ]
+                 [ "limit" ( limit-item | "{" limit-list "}" ) ] |
+                 [ "loginterface" ( interface-name | "none" ) ] |
+                 [ "block-policy" ( "drop" | "return" ) ] |
+                 [ "state-policy" ( "if-bound" | "floating" ) ]
+                 [ "state-defaults" state-opts ]
+                 [ "fingerprints" filename ] |
+                 [ "skip on" ifspec ] |
+                 [ "debug" ( "emerg" | "alert" | "crit" | "err" |
+                 "warning" | "notice" | "info" | "debug" ) ] |
+                 [ "reassemble" ( "yes" | "no" ) [ "no-df" ] ] )
+
+pf-rule		: action [ ( "in" | "out" ) ]
+                 [ "log" [ "(" logopts ")"] ] [ "quick" ]
+                 [ "on" ( ifspec | "rdomain" number ) ] [ af ]
+                 [ protospec ] [ hosts ] [ filteropts ]
+
+logopts		: logopt [ [ "," ] logopts ]
+logopt		: "all" | "matches" | "user" | "to" interface-name
+
+filteropts	: filteropt [ [ "," ] filteropts ]
+filteropt	: user | group | flags | icmp-type | icmp6-type |
+                 "tos" tos |
+                 ( "no" | "keep" | "modulate" | "synproxy" ) "state"
+                 [ "(" state-opts ")" ] | "scrub" "(" scrubopts ")" |
+                 "fragment" | "allow-opts" | "once" |
+                 "divert-packet" "port" port | "divert-reply" |
+                 "divert-to" host "port" port |
+                 "label" string | "tag" string | [ "!" ] "tagged" string |
+                 "max-pkt-rate" number "/" seconds |
+                 "set delay" number |
+                 "set prio" ( number | "(" number [ [ "," ] number ] ")" ) |
+                 "set queue" ( string | "(" string [ [ "," ] string ] ")" ) |
+                 "rtable" number | "probability" number"%" | "prio" number |
+                 "af-to" af "from" ( redirhost | "{" redirhost-list "}" )
+                 [ "to" ( redirhost | "{" redirhost-list "}" ) ] |
+                 "binat-to" ( redirhost | "{" redirhost-list "}" )
+                 [ portspec ] [ pooltype ] |
+                 "rdr-to" ( redirhost | "{" redirhost-list "}" )
+                 [ portspec ] [ pooltype ] |
+                 "nat-to" ( redirhost | "{" redirhost-list "}" )
+                 [ portspec ] [ pooltype ] [ "static-port" ] |
+                 [ route ] | [ "set tos" tos ] |
+                 [ [ "!" ] "received-on" ( interface-name | interface-group ) ]
+
+scrubopts	: scrubopt [ [ "," ] scrubopts ]
+scrubopt	: "no-df" | "min-ttl" number | "max-mss" number | "reassemble tcp" | "random-id"
+
+antispoof-rule	: "antispoof" [ "log" ] [ "quick" ] "for" ifspec [ af ] [ "label" string ]
+
+table-rule	: "table" "<" string ">" [ tableopts ]
+tableopts	: tableopt [ tableopts ]
+tableopt	: "persist" | "const" | "counters" |
+                 "file" string | "{" [ tableaddrs ] "}"
+tableaddrs	: tableaddr-spec [ [ "," ] tableaddrs ]
+tableaddr-spec	: [ "!" ] tableaddr [ "/" mask-bits ]
+tableaddr	: hostname | ifspec | "self" | ipv4-dotted-quad | ipv6-coloned-hex
+
+queue-rule	: "queue" string [ "on" interface-name ] queueopts-list
+
+anchor-rule	: "anchor" [ string ] [ ( "in" | "out" ) ] [ "on" ifspec ]
+                 [ af ] [ protospec ] [ hosts ] [ filteropt-list ] [ "{" ]
+
+anchor-close	: "}"
+
+load-anchor	: "load anchor" string "from" filename
+
+queueopts-list	: queueopts-list queueopts | queueopts
+queueopts	: ([ "bandwidth" bandwidth ] | [ "min" bandwidth ] |
+                 [ "max" bandwidth ] | [ "parent" string ] |
+                 [ "default" ]) |
+                 ([ "flows" number ] | [ "quantum" number ]) |
+                 [ "qlimit" number ]
+
+bandwidth	: bandwidth-spec [ "burst" bandwidth-spec "for" number "ms" ]
+bandwidth-spec	: number ( "" | "K" | "M" | "G" )
+
+action		: "pass" | "match" | "block" return?
+
+return		: "drop"
+		| "return"
+		| "return-rst" ("(" "ttl" number ")")?
+		| "return-icmp" ("(" icmpcode [ [ "," ] icmp6code ] ")")?
+		| "return-icmp6" ("(" icmp6code ")")?
+
+icmpcode	: ( icmp-code-name | icmp-code-number )
+icmp6code	: ( icmp6-code-name | icmp6-code-number )
+
+ifspec		: ( [ "!" ] ( interface-name | interface-group ) ) | "{" interface-list "}"
+interface-list	: [ "!" ] ( interface-name | interface-group ) [ [ "," ] interface-list ]
+route		: ( "route-to" | "reply-to" | "dup-to" ) ( routehost | "{" routehost-list "}" ) [ pooltype ]
+af		: "inet" | "inet6"
+
+protospec	: "proto" ( proto-name | proto-number | "{" proto-list "}" )
+proto-list	: ( proto-name | proto-number ) [ [ "," ] proto-list ]
+
+hosts		: "all"
+		| "from" ( "any"
+			| "no-route"
+			| "urpf-failed"
+			| "self"
+			| host
+			| "{" host-list "}"
+			| "route" string ) [ port ] [ os ] "to" ( "any" | "no-route"
+		| "self"
+		| host
+		| "{" host-list "}"
+		| "route" string ) [ port ]
+
+ipspec		: "any"
+		| host
+		| "{" host-list "}"
+
+host		: [ "!" ] ( address [ "weight" number ]
+			| address [ "/" mask-bits ] [ "weight" number ]
+			| "<" string ">" )
+redirhost	: address [ "/" mask-bits ]
+routehost	: host
+		| host "@" interface-name
+		| "(" interface-name [ address [ "/" mask-bits ] ] ")"
+address		: ( interface-name
+		| interface-group
+		| "(" ( interface-name | interface-group ) ")"
+		| hostname
+		| ipv4-dotted-quad
+		| ipv6-coloned-hex )
+host-list	: host [ [ "," ] host-list ]
+redirhost-list	: redirhost [ [ "," ] redirhost-list ]
+routehost-list	: routehost [ [ "," ] routehost-list ]
+
+port		: "port" ( unary-op | binary-op | "{" op-list "}" )
+portspec	: "port" ( number | name ) [ ":" ( "*" | number | name ) ]
+os		: "os"  ( os-name | "{" os-list "}" )
+user		: "user" ( unary-op | binary-op | "{" op-list "}" )
+group		: "group" ( unary-op | binary-op | "{" op-list "}" )
+
+unary-op	: [ "=" | "!=" | "<" | "<=" | ">" | ">=" ] ( name | number )
+binary-op	: number ( "<>" | "><" | ":" ) number
+op-list		: ( unary-op | binary-op ) [ [ "," ] op-list ]
+
+os-name		: operating-system-name
+os-list		: os-name [ [ "," ] os-list ]
+
+flags		: "flags" ( [ flag-set ] "/"  flag-set | "any" )
+flag-set	: [ "F" ] [ "S" ] [ "R" ] [ "P" ] [ "A" ] [ "U" ] [ "E" ] [ "W" ]
+
+icmp-type	: "icmp-type" ( icmp-type-code | "{" icmp-list "}" )
+icmp6-type	: "icmp6-type" ( icmp-type-code | "{" icmp-list "}" )
+icmp-type-code	: ( icmp-type-name | icmp-type-number )
+                 [ "code" ( icmp-code-name | icmp-code-number ) ]
+icmp-list	: icmp-type-code [ [ "," ] icmp-list ]
+
+tos		: ( "lowdelay" | "throughput" | "reliability" | [ "0x" ] number )
+
+state-opts	: state-opt [ [ "," ] state-opts ]
+state-opt	: ( "max" number | "no-sync" | timeout | "sloppy" |
+                 "pflow" | "source-track" [ ( "rule" | "global" ) ] |
+                 "max-src-nodes" number | "max-src-states" number |
+                 "max-src-conn" number |
+                 "max-src-conn-rate" number "/" number |
+                 "overload" "<" string ">" [ "flush" [ "global" ] ] |
+                 "if-bound" | "floating" )
+
+timeout-list	: timeout [ [ "," ] timeout-list ]
+timeout		: ( "tcp.first"
+		| "tcp.opening"
+		| "tcp.established"
+		| "tcp.closing"
+		| "tcp.finwait"
+		| "tcp.closed"
+		| "udp.first"
+		| "udp.single"
+		| "udp.multiple"
+		| "icmp.first"
+		| "icmp.error"
+		| "other.first"
+		| "other.single"
+		| "other.multiple"
+		| "frag"
+		| "interval"
+		| "src.track"
+		| "adaptive.start"
+		| "adaptive.end" ) number
+
+limit-list	: limit-item [ [ "," ] limit-list ]
+limit-item	: ("states"|"frags"|"src-nodes"|"tables"|"table-entries") number
+pooltype	: ( "bitmask"
+		| "least-states"
+		| "random"
+		| "round-robin"
+		| "source-hash" (hex-key | string-key)? ) "sticky-address"? 
+include		: "include" filename

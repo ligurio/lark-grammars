@@ -1,0 +1,59 @@
+uri		: ( absoluteURI | relativeURI ) ( "" | "#" fragment )
+
+absoluteURI: scheme ":" ( hier_part | opaque_part )
+relativeURI: ( net_path | abs_path | rel_path ) ("" | "?" query )
+
+hier_part	: ( net_path | abs_path ) ("" | "?" query )
+opaque_part	: uric_no_slash uric*
+
+uric_no_slash	: unreserved | escaped | ";" | "?" | ":" | "@" | "&" | "=" | "+" | "$" | ","
+
+net_path	: "//" authority ("" | abs_path )
+abs_path	: "/"  path_segments
+rel_path	: rel_segment ("" | abs_path )
+
+rel_segment	: ( unreserved | escaped | ";" | "@" | "&" | "=" | "+" | "$" | "," )+
+
+scheme		: alpha ( alpha | DIGIT | "+" | "-" | "." )*
+
+authority	: server | reg_name
+
+reg_name	: ( unreserved | escaped | "$" | "," |
+                       ";" | ":" | "@" | "&" | "=" | "+" )+
+
+server		: ("" | ("" | userinfo "@" ) hostport )
+userinfo	: ( unreserved | escaped |
+                      ";" | ":" | "&" | "=" | "+" | "$" | "," )*
+
+hostport	: host ("" | ":" port )
+host		: hostname | IPv4address
+hostname	: ( domainlabel "." )* toplabel ("" | ".")
+domainlabel	: alphanum | alphanum ( alphanum | "-" )* alphanum
+toplabel	: alpha | alpha ( alphanum | "-" )* alphanum
+IPv4address	: DIGIT~1..3 "." DIGIT~1..3 "." DIGIT~1..3 "." DIGIT~1..3
+port		: DIGIT*
+
+path		: ("" | abs_path | opaque_part)
+path_segments	: segment ( "/" segment )*
+segment		: pchar* ( ";" param )*
+param		: pchar*
+pchar		: unreserved | escaped | ":" | "@" | "&" | "=" | "+" | "$" | ","
+
+query		: uric*
+
+fragment	: uric*
+
+uric		: reserved | unreserved | escaped
+reserved	: ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" | "$" | ","
+unreserved	: alphanum | mark
+mark		: "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+
+escaped		: "%" HEXDIGIT HEXDIGIT
+HEXDIGIT	: "a".."f" | "A".."F" | DIGIT
+
+alphanum	: alpha | DIGIT
+alpha		: LCASE_LETTER | UCASE_LETTER
+
+LCASE_LETTER	: "a".."z"
+UCASE_LETTER	: "A".."Z"
+DIGIT		: "0".."9"

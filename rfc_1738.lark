@@ -1,0 +1,102 @@
+// TODO: %import rfc_2397.dataurl
+
+start		: url | dataurl
+url		: httpurl | ftpurl | newsurl | nntpurl | telneturl | gopherurl | waisurl | mailtourl | fileurl | prosperourl | otherurl
+otherurl	: genericurl
+genericurl	: scheme ":" schemepart
+
+rare		: "file" | "ftp" | "http" | "gopher" | "mailto" | "news" | "nntp" | "telnet" | "wais" | "file" | "prospero" | "https" | "chrome"
+common		: "http" | "https" | "mailto" | "file"
+scheme		: common | rare | [LETTER|DIGIT|"+"|"-"|"."]+
+schemepart	: xchar* | ip_schemepart
+ip_schemepart	: "//" login ("" | "/" urlpath)
+
+login		: ("" | user ("" | ":" password) "@") hostport
+hostport	: host ("" | ":" port)
+host		: hostname | hostnumber 
+hostname	: (domainlabel ".")* toplabel
+domainlabel	: LETTER | ALDIG MIDDIG* ALDIG 
+toplabel	: LETTER | LETTER MIDDIG ALDIG
+hostnumber	: (DIGIT~1..3 ".")~3DIGIT~1..3
+port		: natural
+user		: (uchar | USPEC)*
+password	: user
+urlpath		: xchar*
+   
+ftpurl		: "ftp://" login ( "" | "/" fpath ("" | ";type=" ftptype))
+fpath		: fsegment ("" | "/" fsegment )*
+fsegment	: ( uchar | ("?" | ":" | "@" | "&" | "=" ))*
+ftptype		: "A" | "I" | "D" | "a" | "i" | "d"
+
+// FILE
+fileurl		: "file://" [ host | "localhost" ] "/" fpath
+
+// HTTP
+httpurl		: "http://" hostport ("" | "/" hpath ("" | "?" search ))
+hpath		: hsegment ( "/" hsegment )*
+hsegment	: ( uchar | (";" | ":" | "@" | "&" | "=" ))*
+search		: ( uchar | (";" | ":" | "@" | "&" | "=" ))*
+
+// GOPHER (see also RFC1436)
+gopherurl      	: "gopher://" hostport ("" | "/" ( "" | gtype ( "" | selector ("" | "%09" "search" ("" | "%09" gopherstring)))))
+gtype          	: xchar
+selector       	: xchar*
+gopherstring   	: xchar*
+
+// MAILTO (see also RFC822)
+mailtourl      	: "mailto:" encoded822addr
+encoded822addr 	: xchar+               // further defined in RFC822
+
+// NEWS (see also RFC1036)
+newsurl        : "news:" grouppart
+grouppart      : "*" | group | article
+group          : LETTER ( LETTER | DIGIT | "-" | "." | "+" | "_" )*
+article        : ( uchar | (";" | "/" | "?" | ":" | "&" | "=" ))+ "@" host
+
+// NNTP (see also RFC977)
+nntpurl        : "nntp://" hostport "/" group ("" | "/" DIGITS )
+
+// TELNET
+telneturl      : "telnet://" login ("" | "/" )
+
+// WAIS (see also RFC1625)
+waisurl        : waisdatabase | waisindex | waisdoc
+waisdatabase   : "wais://" hostport "/" database
+waisindex      : "wais://" hostport "/" database "?" search
+waisdoc        : "wais://" hostport "/" database "/" wtype "/" wpath
+database       : uchar*
+wtype          : uchar*
+wpath          : uchar*
+
+// PROSPERO
+prosperourl    : "prospero://" hostport "/" ppath ( fieldspec )*
+ppath          : psegment ( "/" psegment )*
+psegment       : ( uchar | "?" | ":" | "@" | "&" | "=" )*
+fieldspec      : ";" fieldname "=" fieldvalue
+fieldname      : ( uchar | ("?" | ":" | "@" | "&" ))*
+fieldvalue     : ( uchar | ("?" | ":" | "@" | "&" ))*
+
+// Miscellaneous definitions
+LCASE_LETTER	: "a".."z"
+UCASE_LETTER	: "A".."Z"
+LETTER		: LCASE_LETTER | UCASE_LETTER
+DIGIT		: "0".."9"
+DIGIT_LEADING	: "1".."9"
+DIGITS		: DIGIT+
+natural		: DIGIT | DIGIT_LEADING DIGITS
+ALDIG		: /[LCASE_LETTER | DIGIT]/
+MIDDIG		: /[LCASE_LETTER | DIGIT | "-"]/
+
+USPEC		: ";" | "?" | "&" | "="
+SAFE		: "$" | "-" | "_" | "." | "+"
+EXTRA		: "!" | "*" | "'" | "(" | ")" | ","
+NATIONAL	: "{" | "}" | "|" | "\\" | "^" | "~" | "[" | "]" | "`"
+PUNCTUATION	: "<" | ">" | "#" | "%" | "\""
+
+reserved	: ";" | "/" | "?" | ":" | "@" | "&" | "="
+HEXDIGIT	: "a".."f"|"A".."F"|DIGIT
+escape		: "%" HEXDIGIT HEXDIGIT
+
+unreserved     	: LETTER | (DIGIT | (SAFE | EXTRA))
+uchar          	: unreserved | unreserved | escape
+xchar          	: unreserved | unreserved | (reserved | escape)

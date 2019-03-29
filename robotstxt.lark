@@ -1,0 +1,49 @@
+// FIXME: url (see https://www.ietf.org/rfc/rfc1738.txt)
+// FIXME: bot names (see https://support.google.com/webmasters/answer/1061943)
+
+// I believe your bot is good enough to parse robots.txt
+// which conforms standards
+// (https://developers.google.com/search/reference/robots_txt)
+
+start: line
+
+line:		uagent
+		| rule
+		| comment
+
+uagent: 	"User-Agent: " agent " " comment?
+rule:		access ": " target " " comment?
+access:		allow|disallow
+allow:		("A"|"a")~1 ("L"|"l")~1 ("L"|"l")~1 ("O"|"o")~1 ("W"|"w")~1
+disallow:	("D"|"d")~1 ("I"|"i")~1 ("S"|"s")~1 allow
+target:		url | "*"
+comment:	"# " word+
+agent:		"*" | "googlebot-news" | "googlebot-images" | "googlebot"
+
+DIGIT		: "0".."9"
+NUMBER		: DIGIT+
+LCASE_LETTER	: "a".."z"
+UCASE_LETTER	: "A".."Z"
+alpha		: LCASE_LETTER | UCASE_LETTER
+alphanum	: alpha | DIGIT
+
+// URL
+
+lowercase_alphanumeric:	LCASE_LETTER | DIGIT
+hyphen:			"-" | "_"
+
+lowercase_word:		lowercase_alphanumeric+
+word:			alphanum+
+word_with_hyphens:	word (hyphen word)+
+number:			DIGIT+
+key_value_pair:		word_with_hyphens "=" word_with_hyphens
+domain_delimiter:	"." | "-"
+
+protocol: 		"http" | "https"
+domain:			lowercase_word (domain_delimiter lowercase_word)+
+port:			":" number
+path:			"/" (word_with_hyphens "/")+
+parameters:		"?" key_value_pair ("&" key_value_pair)+
+anchor:			"#" word_with_hyphens
+
+url:			[ protocol "://" domain [ port ] ] path [ parameters ] [ anchor ]

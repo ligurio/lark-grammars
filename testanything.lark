@@ -1,0 +1,32 @@
+start: report
+
+report		: version~1 "\n" plan~1 "\n" lines
+
+line		: testcase
+		| comment
+		| directive
+lines		: line ("\n" line)+
+
+version		: "TAP version 13"
+plan		: "1.." NUMBER
+status		: "ok"|"not ok"
+testcase	: status~1 " " (description|directive)~1
+description	: "- " words
+explanation	: words
+directive	: "# "~1 (TODO|SKIPPED)~1 " " explanation? "\n"
+comment		: "# "~1 description
+
+TODO		: "TODO"
+SKIPPED		: "Skipped"
+BAILOUT		: "Bail out!"
+
+DIGIT		: "0".."9"
+NOZERO		: "1".."9"
+NUMBER		: NOZERO?DIGIT+
+
+LCASE_LETTER	: "a".."z"
+UCASE_LETTER	: "A".."Z"
+alpha		: LCASE_LETTER | UCASE_LETTER
+alphanum	: alpha | DIGIT
+word		: alphanum+
+words		: word (" " word)+

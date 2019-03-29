@@ -1,0 +1,37 @@
+start: expression
+
+expression: left
+		| right
+		| scale
+		| length
+		| func
+
+left: SIGN_NUMBER LEFT_OP SIGN_NUMBER
+right: SIGN_NUMBER RIGHT_OP
+
+DIGIT		: "0".."9"
+NOZERO		: "1".."9"
+NUMBER		: NOZERO?DIGIT+
+SIGN_NUMBER	: "-"?NUMBER
+
+LEFT_OP		: "-"|"+"|"*"|"/"|"%"|"&&"|"||"
+RIGHT_OP	: "^"|"="|"+="|"-="|"*="|"/="|"%="|"^="
+
+// Operator	Associativity	Description
+// ++ --	none	increment, decrement
+// -	none	unary minus
+// == <= >= != < >	none	relational
+// !	none	boolean not
+// "(" sum ")"
+
+func:		sin|cos|exp|log|atg|j
+sin:		"s(" NUMBER ")"
+cos:		"c(" NUMBER ")"
+exp:		"e(" NUMBER ")"
+log:		"l(" NUMBER ")"
+atg:		"a(" NUMBER ")"
+j:		"j(" NUMBER "," NUMBER ")"
+sqrt:		"sqrt(" NUMBER ")"
+
+scale:		"scale = " NUMBER
+length:		"length = " NUMBER

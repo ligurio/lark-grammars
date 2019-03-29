@@ -1,0 +1,2 @@
+hypothesis==4.9.0
+lark-parser==0.6.7
