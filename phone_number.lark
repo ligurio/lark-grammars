@@ -1,3 +1,415 @@
 // https://www.itu.int/rec/T-REC-E.123-200102-I/e
 // https://tools.ietf.org/html/rfc3966
 // https://en.wikipedia.org/wiki/National_conventions_for_writing_telephone_numbers
+// https://en.wikipedia.org/wiki/List_of_country_calling_codes
+// https://en.wikipedia.org/wiki/Telephone_numbering_plan
+// https://en.wikipedia.org/wiki/Toll-free_telephone_number
+
+// https://github.com/googlei18n/libphonenumber/blob/master/FALSEHOODS.md
+// https://libphonenumber.appspot.com/
+
+// maximum length of 15 digits to telephone numbers
+
+start		: phone_number
+
+phone_number		: country_code area_code number
+country_code		:
+area_code			:
+number				:
+
+country_code		: satellite_phones
+
+satellite_phones	: +870				// Inmarsat
+					| +881 0  | +881 1	// ICO Global
+					| +881 2  | +881 3	// Ellipso
+					| +881 6  | +881 7	// Iridium
+					| +881 8  | +881 9	// Globalstar
+					| +882 13			// Emsat
+					| +882 16			// Thuraya
+					| +882 16			// ACeS
+
+special_services	: +388 5	// shared code for groups of nations
+					| +388 3	// European Telephony Numbering Space
+								// – Europe-wide services (discontinued)
+					| +800		// International Freephone (UIFN)
+					| +808		// reserved for Shared Cost Services
+					| +878		// Universal Personal Telecommunications services
+					| +881		// Global Mobile Satellite System
+					| +882		// International Networks
+					| +883		// International Networks
+					| +888		// international disaster relief operations
+					| +979		// International Premium Rate Service
+					| +991		// International Telecommunications
+								// Public Correspondence Service trial (ITPCS)
+					| +999		// reserved for future global service
+
+code			:
+							// Zone 1: North American Numbering Plan
+				  +1		// Canada
+				| +1		// United States, including United States territories:
+        		| +1 340	// United States Virgin Islands
+				| +1 670	// Northern Mariana Islands
+				| +1 671	// Guam
+				| +1 684	// American Samoa
+				| +1 787	// Puerto Rico
+				| +1 939	// Puerto Rico
+				| +1 242	// Bahamas
+				| +1 246	// Barbados
+				| +1 264	// Anguilla
+				| +1 268	// Antigua and Barbuda
+				| +1 284	// British Virgin Islands
+				| +1 345	// Cayman Islands
+				| +1 441	// Bermuda
+				| +1 473	// Grenada
+				| +1 649	// Turks and Caicos Islands
+				| +1 664	// Montserrat
+				| +1 721	// Sint Maarten
+				| +1 758	// Saint Lucia
+				| +1 767	// Dominica
+				| +1 784	// Saint Vincent and the Grenadines
+				| +1 809	// Dominican Republic
+				| +1 829	// Dominican Republic
+				| +1 849	// Dominican Republic
+				| +1 868	// Trinidad and Tobago
+				| +1 869	// Saint Kitts and Nevis
+				| +1 876	// Jamaica
+				| +1 658	// Jamaica
+				// Zone 2: mostly Africa
+				| +20		// Egypt
+				| +210		// unassigned
+				| +211		// South Sudan
+				| +212		// Morocco
+				| +213		// Algeria
+				| +214		// unassigned
+				| +215		// unassigned
+				| +216		// Tunisia
+				| +217		// unassigned
+				| +218		// Libya
+				| +219		// unassigned
+				| +220		// Gambia
+				| +221		// Senegal
+				| +222		// Mauritania
+				| +223		// Mali
+				| +224		// Guinea
+				| +225		// Ivory Coast
+				| +226		// Burkina Faso
+				| +227		// Niger
+				| +228		// Togo
+				| +229		// Benin
+				| +230		// Mauritius
+				| +231		// Liberia
+				| +232		// Sierra Leone
+				| +233		// Ghana
+				| +234		// Nigeria
+				| +235		// Chad
+				| +236		// Central African Republic
+				| +237		// Cameroon
+				| +238		// Cape Verde
+				| +239		// São Tomé and Príncipe
+				| +240		// Equatorial Guinea
+				| +241		// Gabon
+				| +242		// Republic of the Congo
+				| +243		// Democratic Republic of the Congo
+				| +244		// Angola
+				| +245		// Guinea-Bissau
+				| +246		// British Indian Ocean Territory
+				| +247		// Ascension Island
+				| +248		// Seychelles
+				| +249		// Sudan
+				| +250		// Rwanda
+				| +251		// Ethiopia
+				| +252		// Somalia
+				| +253		// Djibouti
+				| +254		// Kenya
+				| +255		// Tanzania
+				| +255 24	// Zanzibar, in place of never-implemented +259
+				| +256		// Uganda
+				| +257		// Burundi
+				| +258		// Mozambique
+				| +259		// unassigned, was intended for Zanzibar
+							// but never implemented – see +255 Tanzania
+				| +260		// Zambia
+				| +261		// Madagascar
+				| +262		// Réunion
+				| +262 269 	// Mayotte (land / mobile, formerly with +269 Comoros)
+				| +262 639	// Mayotte (land / mobile, formerly with +269 Comoros)
+				| +263		// Zimbabwe
+				| +264		// Namibia
+				| +265		// Malawi
+				| +266		// Lesotho
+				| +267		// Botswana
+				| +268		// Eswatini
+				| +269		// Comoros (Mayotte was here but moved to +262 Réunion)
+				| +27		// South Africa
+				| +28x		// unassigned (Reserved for country code expansion)[2]
+				| +290		// Saint Helena
+				| +290 8 	// Tristan da Cunha
+				| +291		// Eritrea
+				| +292		// unassigned
+				| +293		// unassigned
+				| +294		// unassigned
+				| +295		// discontinued (was assigned to San Marino, see +378)
+				| +296		// unassigned
+				| +297		// Aruba
+				| +298		// Faroe Islands
+				| +299		// Greenland
+				// Zones 3–4: Europe
+				| +30		// Greece
+				| +31		// Netherlands
+				| +32		// Belgium
+				| +33		// France
+				| +34		// Spain
+				| +350		// Gibraltar
+				| +351		// Portugal
+				| +352		// Luxembourg
+				| +353		// Ireland
+				| +354		// Iceland
+				| +355		// Albania
+				| +356		// Malta
+				| +357		// Cyprus
+				| +358		// Finland
+				| +358 18	// Åland Islands
+				| +359		// Bulgaria
+				| +36		// Hungary
+				| +37		// Discontinued (was assigned to  East Germany.
+							// See Germany's country code +49)
+				| +370		// Lithuania (formerly +7 012)
+				| +371		// Latvia (formerly +7 013)
+				| +372		// Estonia (formerly +7 014)
+				| +373		// Moldova (formerly +7 042)
+				| +374		// Armenia (formerly +7 885)
+				| +374 47	// Artsakh (landlines, formerly +7 893)
+				| +374 97	// Artsakh (mobile phones)
+				| +375		// Belarus
+				| +376		// Andorra (formerly +33 628)
+				| +377		// Monaco (formerly +33 93)
+				| +378		// San Marino (formerly +39 549)
+				| +379		// Vatican City assigned but uses Italian +39 06698.
+				| +38		// Discontinued (was assigned to the
+							// Socialist Federal Republic of Yugoslavia until its break-up)
+				| +380		// Ukraine
+				| +381		// Serbia
+				| +382		// Montenegro
+				| +383		// Kosovo
+				| +384		// unassigned
+				| +385		// Croatia
+				| +386		// Slovenia
+				| +387		// Bosnia and Herzegovina
+				| +388		// Discontinued (was assigned
+							// to the European Telephony Numbering Space)[2][3]
+				| +389		// North Macedonia
+				| +39		// Italy
+				| +39 06 698	// Vatican City (assigned +379 but not in use)
+				| +40		// Romania
+				| +41		// Switzerland
+				| +42		// Discontinued (was assigned to  Czechoslovakia until its breakup)
+				| +420		// Czech Republic
+				| +421		// Slovakia
+				| +422		// unassigned
+				| +423		// Liechtenstein (formerly +41 75)
+				| +424		// unassigned
+				| +425		// unassigned
+				| +426		// unassigned
+				| +427		// unassigned
+				| +428		// unassigned
+				| +429		// unassigned
+				| +43		// Austria
+				| +44		// United Kingdom
+				| +44 1481	// Guernsey
+				| +44 1534	// Jersey
+				| +44 1624	// Isle of Man
+				| +45		// Denmark
+				| +46		// Sweden
+				| +47		// Norway
+				| +47 79	// Svalbard
+				| +48		// Poland
+				| +49		// Germany
+				// Zone 5: Americas outside the NANP
+				| +500		// Falkland Islands
+				| +500 x	// South Georgia and the South Sandwich Islands
+				| +501		// Belize
+				| +502		// Guatemala
+				| +503		// El Salvador
+				| +504		// Honduras
+				| +505		// Nicaragua
+				| +506		// Costa Rica
+				| +507		// Panama
+				| +508		// Saint-Pierre and Miquelon
+				| +509		// Haiti
+				| +51		// Peru
+				| +52		// Mexico
+				| +53		// Cuba
+				| +54		// Argentina
+				| +55		// Brazil
+				| +56		// Chile
+				| +57		// Colombia
+				| +58		// Venezuela
+				| +590		// Guadeloupe (including Saint Barthélemy, Saint Martin)
+				| +591		// Bolivia
+				| +592		// Guyana
+				| +593		// Ecuador
+				| +594		// French Guiana
+				| +595		// Paraguay
+				| +596		// Martinique (formerly assigned by Peru, see +51 above)
+				| +597		// Suriname
+				| +598		// Uruguay
+				| +599		// Former  Netherlands Antilles, now grouped as follows:
+				| +599 3	// Sint Eustatius
+				| +599 4	// Saba
+				| +599 5	// formerly  Sint Maarten –
+							// Now included in NANP as code +1-721 (see Zone 1, above)
+				| +599 7	// Bonaire
+				| +599 8	// formerly  Aruba – See country code +297 above
+				| +599 9	// Curaçao
+				// Zone 6: Southeast Asia and Oceania
+				| +60		// Malaysia
+				| +61		// Australia (see also +672 below)
+				| +61 8 9162	// Cocos Islands
+				| +61 8 9164	// Christmas Island
+				| +62		// Indonesia
+				| +63		// Philippines
+				| +64		// New Zealand
+				| +64 xx	// Pitcairn Islands
+				| +65		// Singapore
+				| +66		// Thailand
+				| +670		// East Timor (formerly +62 39 under Indonesian rule)
+							// - formerly Northern Mariana Islands
+							// which is now included in NANP as code +1-670 (See Zone 1, above)
+				| +671		// formerly Guam – Now included in NANP as code +1-671
+							// (See Zone 1, above)
+				| +672		// Australian External Territories
+							// (see also +61 Australia above;
+							// was originally assigned to  Portuguese Timor, see +670 above)
+				| +672 1x	// Australia Australian Antarctic Territory
+				| +672 3	// Norfolk Island
+				| +673		// Brunei
+				| +674		// Nauru
+				| +675		// Papua New Guinea
+				| +676		// Tonga
+				| +677		// Solomon Islands
+				| +678		// Vanuatu
+				| +679		// Fiji
+				| +680		// Palau
+				| +681		// Wallis and Futuna
+				| +682		// Cook Islands
+				| +683		// Niue
+				| +684		// formerly American Samoa
+							// - Now included in NANP as code +1-684 (See Zone 1, above)
+				| +685		// Samoa
+				| +686		// Kiribati
+				| +687		// New Caledonia
+				| +688		// Tuvalu
+				| +689		// French Polynesia
+				| +690		// Tokelau
+				| +691		// Federated States of Micronesia
+				| +692		// Marshall Islands
+				| +693		// unassigned
+				| +694		// unassigned
+				| +695		// unassigned
+				| +696		// unassigned
+				| +697		// unassigned
+				| +698		// unassigned
+				| +699		// unassigned
+				// Zone 7: Parts of the former Soviet Union
+				| +7		// Russia
+				| +7 6xx	// Kazakhstan
+				| +7 7xx	// Kazakhstan
+				| +7 840	// Abkhazia - see also +995 44
+				| +7 940	// Abkhazia - see also +995 44
+				// Zone 8: East Asia and special services
+				| +800		// International Freephone (UIFN)
+				| +801		// unassigned
+				| +802		// unassigned
+				| +803		// unassigned
+				| +804		// unassigned
+				| +805		// unassigned
+				| +806		// unassigned
+				| +807		// unassigned
+				| +808		// reserved for Shared Cost Services
+				| +809		// unassigned
+				| +81		// Japan
+				| +82		// South Korea
+				| +83x		// unassigned (Reserved for country code expansion)
+				| +84		// Vietnam
+				| +850		// North Korea
+				| +851		// unassigned
+				| +852		// Hong Kong
+				| +853		// Macau
+				| +854		// unassigned
+				| +855		// Cambodia
+				| +856		// Laos
+				| +857		// unassigned, formerly ANAC satellite service
+				| +858		// unassigned, formerly ANAC satellite service
+				| +859		// unassigned
+				| +86		// China
+				| +870		// Inmarsat "SNAC" service
+				| +871		// unassigned (formerly used by Inmarsat, Atlantic East),
+							// discontinued in 2008
+				| +872		// unassigned (formerly used by Inmarsat, Pacific),
+							// discontinued in 2008
+				| +873		// unassigned (formerly used by Inmarsat, Indian),
+							// discontinued in 2008
+				| +874		// unassigned (formerly used by Inmarsat, Atlantic West),
+							// discontinued 2008
+				| +875		// reserved for Maritime Mobile service
+				| +876		// reserved for Maritime Mobile service
+				| +877		// reserved for Maritime Mobile service
+				| +878		// Universal Personal Telecommunications services
+				| +879		// reserved for national non-commercial purposes
+				| +880		// Bangladesh
+				| +881		// Global Mobile Satellite System
+				| +882		// International Networks
+				| +883		// International Networks
+				| +884		// unassigned
+				| +885		// unassigned
+				| +886		// Taiwan
+				| +887		// unassigned
+				| +888		// Telecommunications for Disaster Relief by OCHA
+				| +889		// unassigned
+				| +89x		// unassigned (Reserved for country code expansion)
+				// Zone 9: mostly southern Asia
+				| +90		// Turkey
+				| +90 392	// Northern Cyprus
+				| +91		// India
+				| +92		// Pakistan
+				| +92 582	// Azad Kashmir[4]
+				| +92 581	// Gilgit Baltistan[4]
+				| +93		// Afghanistan
+				| +94		// Sri Lanka
+				| +95		// Myanmar
+				| +960		// Maldives
+				| +961		// Lebanon
+				| +962		// Jordan
+				| +963		// Syria
+				| +964		// Iraq
+				| +965		// Kuwait
+				| +966		// Saudi Arabia
+				| +967		// Yemen
+				| +968		// Oman
+				| +969		// unassigned – originally  South Yemen,
+							// now covered under 967 Yemen (formerly  North Yemen)
+				| +970		// Palestine
+				| +971		// United Arab Emirates
+				| +972		// Israel
+				| +973		// Bahrain
+				| +974		// Qatar
+				| +975		// Bhutan
+				| +976		// Mongolia
+				| +977		// Nepal
+				| +978		// unassigned – originally assigned to Dubai, now covered under 971
+				| +979		// International Premium Rate Service -
+							// originally assigned to Abu Dhabi, now covered under 971
+				| +98		// Iran
+				| +990		// unassigned
+				| +991		// International Telecommunications Public
+							// Correspondence Service trial (ITPCS)
+				| +992		// Tajikistan
+				| +993		// Turkmenistan
+				| +994		// Azerbaijan
+				| +995		// Georgia
+				| +995 34	// South Ossetia
+				| +995 44	// Abkhazia[5][6] - see also +7 840, 940
+				| +996		// Kyrgyzstan
+				| +997		// unassigned
+				| +998		// Uzbekistan
+				| +999		// reserved for future global service
