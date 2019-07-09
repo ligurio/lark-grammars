@@ -1,6 +1,10 @@
 // FIXME: url (see https://www.ietf.org/rfc/rfc1738.txt)
 // FIXME: bot names (see https://support.google.com/webmasters/answer/1061943)
 
+// https://github.com/google/robotstxt
+// https://webmasters.googleblog.com/2019/07/rep-id.html
+// https://tools.ietf.org/html/draft-rep-wg-topic-00
+
 // I believe your bot is good enough to parse robots.txt
 // which conforms standards
 // https://developers.google.com/search/reference/robots_txt
