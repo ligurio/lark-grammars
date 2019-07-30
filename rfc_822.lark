@@ -1,4 +1,6 @@
 // STANDARD FOR THE FORMAT OF ARPA INTERNET TEXT MESSAGES, RFC-822 (many definitions of MIME rely on this)
+// https://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx/
+// https://archive.fosdem.org/2018/schedule/event/email_address_quiz/
 
 address     : mailbox | group
 addr_spec   : local_part "@" domain
