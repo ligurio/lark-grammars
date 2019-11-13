@@ -15,9 +15,11 @@ if __name__ == '__main__':
                         help='start terminal')
     args = parser.parse_args()
     if (not args.grammar):
-	sys.exit(1)
+        sys.exit(1)
     if args.grammar == "mime.lark":
-       sys.setrecursionlimit(10000)
+        sys.setrecursionlimit(10000)
 
     with open(args.grammar, 'r') as grammar:
-    	print from_lark(Lark(open(args.grammar, 'r'), start="start")).example()
+        sample = from_lark(Lark(open(args.grammar, 'r'), start="start")).example()
+        print('{}'.format(sample))
+
