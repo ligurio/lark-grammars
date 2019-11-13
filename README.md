@@ -21,6 +21,20 @@ Grammars suitable for [lark](https://github.com/lark-parser/lark) parser:
 - ```postal.lark```
 - ```phone_number.lark```
 
+### How-To Use:
+
+```
+$ python3 -m venv venv
+$ pip3  install -r requirements.txt
+$ python3 ./generate.py
+$ python3 ./generate.py --grammar testanything.lark --start report
+TAP version 13
+1..861602252
+not ok # Skipped
+
+# - C o A 2 1 H
+```
+
 ### See grammars for other parsers:
 
 - [ANTLR v4](https://github.com/antlr/grammars-v4)
