@@ -12,7 +12,9 @@ Grammars suitable for [lark](https://github.com/lark-parser/lark) parser:
 - ```rfc_1738.lark```: [RFC 1738: Uniform Resource Locators (URL)](https://www.ietf.org/rfc/rfc1738.txt) (WIP)
 - ```rfc_2396.lark```: [RFC 2396: Uniform Resource Identifiers (URI)](https://www.ietf.org/rfc/rfc2396.txt)
 - ```rfc_2397.lark```: [RFC 2397: The "data" URL scheme](https://tools.ietf.org/html/rfc2397)
-- ```rfc_5545.lark```
+- ```rfc_5545.lark```: [RFC 5545: Internet Calendaring and Scheduling Core Object Specification (iCalendar)](https://tools.ietf.org/html/rfc5545)
+- ```rfc_6531.lark```: [RFC 6531: SMTP Extension for Internationalized Email](https://tools.ietf.org/html/rfc6531) (WIP)
+- ```rfc_5321.lark```: [RFC 5321: Simple Mail Transfer Protocol](https://tools.ietf.org/html/rfc5321) (WIP)
 - ```toml.lark```: [Tom's Obvious, Minimal Language](https://github.com/toml-lang/toml)
 - ```yaml.lark```: [YAML: YAML Ain't Markup Language](https://yaml.org)
 - ```restructuredtext.lark```
