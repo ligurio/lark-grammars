@@ -1,0 +1,37 @@
+python: 3.7
+
+os:
+  - linux
+
+script:
+  - pip3 install -r requirements.txt
+  - python3 generate.py --grammar bc.lark
+  # - python3 generate.py --grammar gedcom.lark
+  - python3 generate.py --grammar mime.lark
+  - python3 generate.py --grammar palindrome.lark
+  #- python3 generate.py --grammar pf.lark
+  #- python3 generate.py --grammar phone_number.lark
+  #- python3 generate.py --grammar postal.lark
+  #- python3 generate.py --grammar regex.lark
+  #- python3 generate.py --grammar restructuredtext.lark
+  #- python3 generate.py --grammar rfc_1738.lark
+  #- python3 generate.py --grammar rfc_2396.lark
+  #- python3 generate.py --grammar rfc_2397.lark
+  #- python3 generate.py --grammar rfc_5321.lark
+  #- python3 generate.py --grammar rfc_5545.lark
+  #- python3 generate.py --grammar rfc_6531.lark
+  #- python3 generate.py --grammar rfc_822_datetime.lark
+  #- python3 generate.py --grammar rfc_822.lark
+  - python3 generate.py --grammar robotstxt.lark
+  #- python3 generate.py --grammar sqlite.lark
+  #- python3 generate.py --grammar subunit_v1.lark
+  - python3 generate.py --grammar testanything.lark
+  #- python3 generate.py --grammar toml.lark
+  #- python3 generate.py --grammar yaml.lark
+
+notifications:
+  email:
+    recipients:
+      - estetus+travis-ci@gmail.com
+    on_success: change
+    on_failure: always
