@@ -1,0 +1,185 @@
+// https://github.com/antlr/grammars-v4/blob/master/lua/Lua.g4
+// 
+// This grammar file derived from:
+// 
+// Lua 5.3 Reference Manual
+// http://www.lua.org/manual/5.3/manual.html
+//
+// Lua 5.2 Reference Manual
+// http://www.lua.org/manual/5.2/manual.html
+//
+// Lua 5.1 grammar written by Nicolai Mainiero
+// http://www.antlr3.org/grammar/1178608849736/Lua.g
+
+start : chunk
+
+chunk : block EOF
+
+block : stat* retstat?
+
+stat : ";"
+    | varlist "=" explist
+    | functioncall
+    | label
+    | "break"
+    | "goto" NAME
+    | "do" block "end"
+    | "while" exp "do" block "end"
+    | "repeat" block "until" exp
+    | "if" exp "then" block ("elseif" exp "then" block)* ("else" block)? "end"
+    | "for" NAME "=" exp "," exp ("," exp)? "do" block "end"
+    | "for" namelist "in" explist "do" block "end"
+    | "function" funcname funcbody
+    | "local" "function" NAME funcbody
+    | "local" namelist ("=" explist)?
+
+retstat : "return" explist? ";"?
+
+label : "::" NAME "::"
+
+funcname : NAME ("." NAME)* (":" NAME)?
+
+varlist : var ("," var)*
+
+namelist : NAME ("," NAME)*
+
+explist : exp ("," exp)*
+
+exp : "nil" | "false" | "true"
+    | number
+    | string
+    | "..."
+    | functiondef
+    | prefixexp
+    | tableconstructor
+    | exp operator_power exp
+    | operator_unary exp
+    | exp operator_mul_div_mod exp
+    | exp operator_add_sub exp
+    | exp operator_strcat exp
+    | exp operator_comparison exp
+    | exp operator_and exp
+    | exp operator_or exp
+    | exp operator_bitwise exp
+
+prefixexp : var_or_exp name_and_args*
+
+functioncall : var_or_exp name_and_args+
+
+var_or_exp : var | "(" exp ")"
+
+var : (NAME | "(" exp ")" var_suffix) var_suffix*
+
+var_suffix : name_and_args* ("[" exp "]" | "." NAME)
+
+name_and_args : (":" NAME)? args
+
+//var : NAME | prefixexp "[" exp "]" | prefixexp "." NAME
+//
+//prefixexp : var | functioncall | "(" exp ")"
+//
+//functioncall : prefixexp args | prefixexp ":" NAME args 
+
+args : "(" explist? ")" | tableconstructor | string
+
+functiondef : "function" funcbody
+
+funcbody : "(" parlist? ")" block "end"
+
+parlist : namelist ("," "...")? | "..."
+
+tableconstructor : "{" fieldlist? "}"
+
+fieldlist : field (fieldsep field)* fieldsep?
+
+field : "[" exp "]" "=" exp | NAME "=" exp | exp
+
+fieldsep : "," | ";"
+
+operator_or : "or"
+
+operator_and : "and"
+
+operator_comparison : "<" | ">" | "<=" | ">=" | "~=" | "=="
+
+operator_strcat : ".."
+
+operator_add_sub : "+" | "-"
+
+operator_mul_div_mod : "*" | "/" | "%" | "//"
+
+operator_bitwise : "&" | "|" | "~" | "<<" | ">>"
+
+operator_unary : "not" | "#" | "-" | "~"
+
+operator_power : "^"
+
+number : INT | HEX | FLOAT | HEX_FLOAT
+
+string : NORMALSTRING | CHARSTRING | LONGSTRING
+
+// LEXER
+
+NAME : [LCASE_LETTER | UCASE_LETTER | "_"][LCASE_LETTER | UCASE_LETTER | "_" | DIGIT]*
+
+LCASE_LETTER	: "a".."z"
+UCASE_LETTER	: "A".."Z"
+DIGIT		: "0".."9"
+
+// FIXME: sergeyb@
+// NORMALSTRING : "\"" ( escape_sequence | ~("\\"|"\"") )* "\"" 
+//NORMALSTRING : "\"" ( escape_sequence )* "\"" 
+
+// FIXME: sergeyb@
+// CHARSTRING : "\"" ( escape_sequence | ~("\""|"\\") )* "\""
+//CHARSTRING : "\"" ( escape_sequence )* "\""
+
+LONGSTRING : "[" NESTED_STR "]"
+
+NESTED_STR : "=" NESTED_STR "=" | "[" "."*? "]"
+
+//INT : digit+
+
+HEX : "0" ["x"|"X"] hex_digit+
+
+FLOAT : digit+ "." digit* exponent_part?
+    | "." digit+ exponent_part?
+    | digit+ exponent_part
+
+HEX_FLOAT : "0" [xX] hex_digit+ "." hex_digit* hex_exponent_part?
+    | "0" [xX] "." hex_digit+ hex_exponent_part?
+    | "0" [xX] hex_digit+ hex_exponent_part
+
+exponent_part : ["e"|"E"] ["+"|"-"]? digit+
+
+hex_exponent_part : ["p"|"P"] ["+"|"-"]? digit+
+
+// FIXME: sergeyb@
+// escape_sequence : "\\" [abfnrtvz""\\]
+escape_sequence : "\\" "\r"? "\n" | decimal_escape | hex_escape | utf_escape
+    
+decimal_escape : "\\" digit | "\\" digit digit | "\\" "0".."2" digit digit 
+
+hex_escape : "\\" "x" hex_digit hex_digit
+
+utf_escape : "\\" "u{" hex_digit+ "}"
+
+digit : DIGIT
+
+hex_digit : [DIGIT | UCASE_LETTER | LCASE_LETTER]+
+
+COMMENT : "--[" NESTED_STR "]"
+    
+//LINE_COMMENT : "--"
+//    (                                               // --
+//    | "[" "="*                                      // --[==
+//    | "[" "="* ~("="|"["|"\r"|"\n") ~("\r"|"\n")*   // --[==AA
+//    | ~("["|"\r"|"\n") ~("\r"|"\n")*                // --AAA
+//    ) ("\r\n"|"\r"|"\n"|EOF)
+LINE_COMMENT : "--"
+    
+// FIXME: sergeyb@
+// WS  : [ \t\u000C\r\n]+ -> skip
+WS  : [ "\t" | "\u" | "000C" | "\r" | "\n" ]+
+
+SHEBANG : "#" "!" ("\n"|"\r")*
