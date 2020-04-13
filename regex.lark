@@ -1,29 +1,31 @@
-start		: regex
+%import common (INT, DECIMAL)
 
-regex		: regex_ere
-		| regex_bre
+start   	: regex
 
-regex_ere	: rex~{1,20}
+regex   	: regex_ere
+      		| regex_bre
 
-rex		: letter 
-          	| ( range
-            	| rex repetition
-            	| rex "|" rex
-            	| ( "(" rex ")" | "\\" num.dec)
-            	| "\\" ("w" | "W" | "<" | ">" | "b" | "B" | "`" | "'" | "r" | "n")
-            	| "(" rex+ ")" )
+regex_ere   	: rex ~ 1..20
 
-repetition	: "*" | "+" | "?"
-         	| "{" num.natural "}"
-         	| "{" num.natural "," "}"
-         	| "{" "," num.natural"}"
-         	| "{" num.natural "," num.natural "}"
+rex     	: LETTER 
+		| ( range
+		| rex repetition
+		| rex "|" rex
+		| ( "(" rex ")" | "\\" DECIMAL)
+		| "\\" ("w" | "W" | "<" | ">" | "b" | "B" | "`" | "'" | "r" | "n")
+		| "(" rex+ ")" )
 
-range		: "[" ("^" | "") range-elt* ("" | "$") "]"
+repetition  	: "*" | "+" | "?"
+		| "{" INT "}"
+		| "{" INT "," "}"
+		| "{" "," INT"}"
+		| "{" INT "," INT "}"
 
-letter		: [0-9a-z]
+range   	: "[" "^"? range_elt* "$"? "]"
 
-named-range-elt	: "[:alnum:]"
+LETTER  	: /[0-9a-zA-Z]/
+
+NAMED_RANGE_ELT : "[:alnum:]"
 		| "[:alpha:]"
 		| "[:cntrl:]"
 		| "[:digit:]"
@@ -35,8 +37,8 @@ named-range-elt	: "[:alnum:]"
 		| "[:upper:]"
 		| "[:xdigit:]"
 
-range-elt	: named-range-elt
-         	| letter
-         	| letter "-" letter
+range_elt   	: NAMED_RANGE_ELT
+            	| LETTER
+            	| LETTER "-" LETTER
 
-regex_bre	:
+regex_bre   	:
