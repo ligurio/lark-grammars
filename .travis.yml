@@ -12,7 +12,7 @@ script:
   #- python3 generate.py --grammar pf.lark
   #- python3 generate.py --grammar phone_number.lark
   #- python3 generate.py --grammar postal.lark
-  #- python3 generate.py --grammar regex.lark
+  - python3 generate.py --grammar regex.lark
   #- python3 generate.py --grammar restructuredtext.lark
   #- python3 generate.py --grammar rfc_1738.lark
   #- python3 generate.py --grammar rfc_2396.lark
