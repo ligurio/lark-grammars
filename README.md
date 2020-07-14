@@ -2,7 +2,7 @@ Grammars suitable for [lark](https://github.com/lark-parser/lark) parser:
 
 - ```mime.lark```: MIME [Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml)
 - ```palindrome.lark```: [palindrome](https://en.wikipedia.org/wiki/Palindrome) is a word, number, or other sequence of characters which reads the same backward as forward, such as ```madam``` or ```racecar``` or the number ```10801```.
-- ```testanything.lark```: [TAP13](https://testanything.org/tap-version-13-specification.html) - The Test Anything Protocol v13
+- ```tap13.lark```: [TAP13](https://testanything.org/tap-version-13-specification.html) - The Test Anything Protocol v13
 - ```subunit_v1.lark```: [SubUnit v1](https://github.com/testing-cabal/subunit) - SubUnit v1 protocol
 - ```bc.lark```: [bc](https://man.openbsd.org/bc), an arbitrary precision calculator language
 - ```robotstxt.lark```: [robots.txt](http://www.robotstxt.org/robotstxt.html)
@@ -27,9 +27,8 @@ Grammars suitable for [lark](https://github.com/lark-parser/lark) parser:
 
 ```
 $ python3 -m venv venv
-$ pip3  install -r requirements.txt
-$ python3 ./generate.py
-$ python3 ./generate.py --grammar testanything.lark --start report
+$ pip3 install -r requirements.txt
+$ python3 ./generate.py --grammar grammars/tap13.lark
 TAP version 13
 1..861602252
 not ok # Skipped
