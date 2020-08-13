@@ -4,16 +4,16 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="hypothesis-grammars",
+    name="lark-grammars",
     version="0.1.0",
     author="Sergey Bronnikov",
     author_email="estetus@gmail.com",
     description="Lark grammars for using wht Hypothesis testing library",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    package_dir={'hypothesis_grammars': 'hypothesis_grammars'},
-    package_data={'hypothesis_grammars': ['grammars/*.lark']},
-    url="https://github.com/ligurio/hypothesis-grammars",
+    package_dir={'lark_grammars': 'lark_grammars'},
+    package_data={'lark_grammars': ['grammars/*.lark']},
+    url="https://github.com/ligurio/lark-grammars",
     packages=setuptools.find_packages(),
     classifiers=[
         "Operating System :: OS Independent",
@@ -25,7 +25,7 @@ setuptools.setup(
         'hypothesis',
         'lark-parser'],
     project_urls={
-        'Bug Reports': 'https://github.com/ligurio/hypothesis-grammars/issues',
-        'Source': 'https://github.com/ligurio/hypothesis-grammars',
+        'Bug Reports': 'https://github.com/ligurio/lark-grammars/issues',
+        'Source': 'https://github.com/ligurio/lark-grammars',
     },
 )
