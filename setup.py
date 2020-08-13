@@ -11,6 +11,8 @@ setuptools.setup(
     description="Lark grammars for using wht Hypothesis testing library",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    package_dir={'hypothesis_grammars': 'hypothesis_grammars'},
+    package_data={'hypothesis_grammars': ['grammars/*.lark']},
     url="https://github.com/ligurio/hypothesis-grammars",
     packages=setuptools.find_packages(),
     classifiers=[
@@ -19,4 +21,11 @@ setuptools.setup(
         "Topic :: Software Development :: Testing",
     ],
     python_requires='>=3.6',
+    install_requires=[
+        'hypothesis',
+        'lark-parser'],
+    project_urls={
+        'Bug Reports': 'https://github.com/ligurio/hypothesis-grammars/issues',
+        'Source': 'https://github.com/ligurio/hypothesis-grammars',
+    },
 )
