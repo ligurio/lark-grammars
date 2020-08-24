@@ -27,8 +27,12 @@ Grammars suitable for [lark](https://github.com/lark-parser/lark) parser:
 
 ```
 $ python3 -m venv venv
-$ pip3 install -r requirements.txt
-$ python3 ./generate.py --grammar grammars/tap13.lark
+$ pip3 install lark_grammars
+$ cat example.py
+from lark_grammars import grammars                     
+grammars.grammar_files['bc'] 
+
+$ python3 generate.py --grammar grammars/tap13.lark
 TAP version 13
 1..861602252
 not ok # Skipped
