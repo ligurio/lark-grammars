@@ -1,3 +1,7 @@
+### lark grammars
+
+[![PyPI version](https://badge.fury.io/py/lark-grammars.svg)](https://badge.fury.io/py/lark-grammars)
+
 Grammars suitable for [lark](https://github.com/lark-parser/lark) parser:
 
 - ```mime.lark```: MIME [Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml)
