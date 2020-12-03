@@ -1,3 +1,46 @@
-// THE GEDCOM STANDARD DRAFT Release 5.5.1
-// https://edge.fscdn.org/assets/img/documents/ged551-2433a640483d5f5199921c5734ee2d8a.pdf
-// https://homepages.rootsweb.com/~pmcbride/gedcom/55gcch2.htm
+// The GEDCOM standard 5.5 Draft
+// https://homepages.rootsweb.com/~pmcbride/gedcom/55gctoc.htm
+
+DIGIT           : "0".."9"
+LCASE_LETTER    : "a".."z"
+UCASE_LETTER    : "A".."Z"
+UNDERSCORE      : "_"
+HASH            : "#"
+SPACE           : " "
+AT              : "@"
+NON_AT          : [ ALPHA | DIGIT | OTHERCHAR | SPACE | HASH ]
+ALPHA           : UCASE_LETTER | LCASE_LETTER | UNDERSCORE
+ALPHANUM        : ALPHA [ ALPHA | DIGIT ]*
+ANYCHAR         : [ ALPHA | DIGIT | OTHERCHAR | HASH | SPACE | AT AT ]
+OTHERCHAR       : TODO
+DELIM           : [ SPACE ]
+TAB             : SPACE+
+
+NAME            : ALPHANUM+
+WORD            : ALPHANUM+
+NUMBER          : DIGIT+
+WS              : SPACE | TAB
+STRING          : WORD [ WS WORD+ ]
+
+NULL            :
+optional_line_value: DELIM line_value
+optional_xref_ID: xref_ID + DELIM
+OTHERCHAR: [ "!"-" | (0x24)-(0x2F) | (0x3A)-(0x3F) | (0x5B)-(0x5E) | "`" | "{" "|" "}" "~" | (0x80)-(0xFE)]
+pointer_char: [ NON_AT ]
+pointer_string: [ NULL | pointer_char | pointer_string pointer_char ]
+pointer: [ AT + ALPHANUM + pointer_string AT ]
+tag: [ ALPHANUM | tag + ALPHANUM ]
+terminator: [carriage_return | line_feed | carriage_return + line_feed | line_feed + carriage_return ]
+xref_ID: [pointer]
+
+start: gedcom_line
+
+escape : AT HASH escape_text AT + NON_AT
+
+escape_text: ANYCHAR | (escape_text ANYCHAR)*
+
+level: DIGIT (DIGIT DIGIT)*
+
+line_item: ANY_CHAR | escape | line_item + ANY_CHAR | line_item + escape
+
+line_value: pointer | line_item
