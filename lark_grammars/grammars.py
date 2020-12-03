@@ -4,6 +4,7 @@
 import argparse
 import os
 import sys
+import hypothesis
 
 from lark import Lark
 from hypothesis.extra.lark import from_lark
@@ -41,6 +42,8 @@ grammar_files = {'bc': _build_path('bc.lark'),
                  'yaml': _build_path('yaml.lark')}
 
 if __name__ == '__main__':
+    hypothesis.seed(time.time())
+
     parser = argparse.ArgumentParser(description='Generate grammar samples.')
     parser.add_argument('--grammar', dest='grammar',
                         help='file with grammar syntax')
