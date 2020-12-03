@@ -2,15 +2,15 @@ start		: report
 report		: lines
 
 line		: test
-		| success
-		| failure
-		| error
-		| skip
-		| xfail
-		| uxsuccess
-		| progress
-		| tags
-		| time
+            | success
+            | failure
+            | error
+            | skip
+            | xfail
+            | uxsuccess
+            | progress
+            | tags
+            | time
 
 lines		: line ("\n" line)+
 
@@ -35,8 +35,8 @@ part_bytes	: (NUMBER CR)+ "0" CR						// FIXME
 tag		: words
 utf8-lines	: words (CR words)+
 
-LF		: /\n/
-CR		: /\n/
+LF          : /\n/
+CR          : /\n/
 NEWLINE		: (CR? LF)+
 DIGIT		: "0".."9"
 NOZERO		: "1".."9"

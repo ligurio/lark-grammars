@@ -3,8 +3,8 @@ start: report
 report		: version~1 "\n" plan~1 "\n" lines
 
 line		: testcase
-		| comment
-		| directive
+            | comment
+		    | directive
 lines		: line ("\n" line)+
 
 version		: "TAP version 13"

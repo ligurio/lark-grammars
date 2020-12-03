@@ -13,8 +13,8 @@
 start:		line
 
 line:		uagent
-		| rule
-		| comment
+		    | rule
+		    | comment
 
 uagent: 	"User-Agent: " agent " " comment?
 rule:		access ": " target " " comment?
@@ -37,12 +37,12 @@ alphanum	: alpha | DIGIT
 lowercase_alphanumeric:	LCASE_LETTER | DIGIT
 hyphen:			"-" | "_"
 
-lowercase_word:		lowercase_alphanumeric+
-word:			alphanum+
-word_with_hyphens:	word (hyphen word)+
-number:			DIGIT+
-key_value_pair:		word_with_hyphens "=" word_with_hyphens
-domain_delimiter:	"." | "-"
+lowercase_word:	lowercase_alphanumeric+
+word: alphanum+
+word_with_hyphens: word (hyphen word)+
+number:	DIGIT+
+key_value_pair:	word_with_hyphens "=" word_with_hyphens
+domain_delimiter: "." | "-"
 
 protocol: 		"http" | "https"
 domain:			lowercase_word (domain_delimiter lowercase_word)+
