@@ -19,6 +19,7 @@ def _build_path(name):
 
 grammar_files = {'bc': _build_path('bc.lark'),
                  'gedcom': _build_path('gedcom.lark'),
+                 'lua': _build_path('lua.lark'),
                  'palindrome': _build_path('palindrome.lark'),
                  'phone_number': _build_path('phone_number.lark'),
                  'pf': _build_path('pf.lark'),
@@ -48,9 +49,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if (not args.grammar):
         sys.exit(1)
-    if args.grammar == "mime.lark":
+    if args.grammar == 'mime.lark':
         sys.setrecursionlimit(10000)
 
     with open(args.grammar, 'r') as grammar:
-        sample = from_lark(Lark(grammar, start=DEFAULT_START)).example()
+        sample = from_lark(Lark(grammar, start=args.start)).example()
         print('{}'.format(sample))
