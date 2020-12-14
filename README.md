@@ -11,6 +11,7 @@ Grammars suitable for [lark](https://github.com/lark-parser/lark) parser:
 - ```bc.lark```: [bc](https://man.openbsd.org/bc), an arbitrary precision calculator language
 - ```robotstxt.lark```: [robots.txt](http://www.robotstxt.org/robotstxt.html)
 - ```pf.lark```: [OpenBSD packet filter configuration file](https://man.openbsd.org/pf.conf)
+- ```python3.lark```: Python 3 language grammar specification
 - ```regex.lark```: [POSIX Regular Expressions](http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html)
 - ```rfc_822.lark```: [RFC 822: Standard for ARPA Internet Text Messages](https://www.ietf.org/rfc/rfc822.txt)
 - ```rfc_1738.lark```: [RFC 1738: Uniform Resource Locators (URL)](https://www.ietf.org/rfc/rfc1738.txt) (WIP)
