@@ -13,7 +13,7 @@ Grammars suitable for [lark](https://github.com/lark-parser/lark) parser:
 - [Palindrome](https://en.wikipedia.org/wiki/Palindrome) is a word, number, or
   other sequence of characters which reads the same backward as forward, such
   as ```madam``` or ```racecar``` or the number ```10801```
-  (```palindrome.lark```: )
+  (```palindrome.lark```)
 - [OpenBSD packet filter configuration file](https://man.openbsd.org/pf.conf) (```pf.lark```)
 - ```phone_number.lark```
 - Postal Address (```postal.lark```)
@@ -36,13 +36,14 @@ Grammars suitable for [lark](https://github.com/lark-parser/lark) parser:
 ### How-To Use:
 
 ```
-$ python3 -m venv venv
-$ pip3 install lark_grammars
+$ python -m venv venv
+$ python -m pytest tests/test_grammars.py
+$ pip install lark_grammars
 $ cat example.py
 from lark_grammars import grammars                     
 grammars.grammar_files['bc'] 
 
-$ python3 generate.py --grammar grammars/tap13.lark
+$ python generate.py --grammar grammars/tap13.lark
 TAP version 13
 1..861602252
 not ok # Skipped

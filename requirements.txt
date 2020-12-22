@@ -1,2 +1,10 @@
+attrs==20.3.0
 hypothesis==4.9.0
+iniconfig==1.1.1
 lark-parser==0.6.7
+packaging==20.8
+pluggy==0.13.1
+py==1.10.0
+pyparsing==2.4.7
+pytest==6.2.1
+toml==0.10.2
