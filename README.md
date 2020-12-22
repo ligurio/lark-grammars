@@ -7,6 +7,7 @@ Grammars suitable for [lark](https://github.com/lark-parser/lark) parser:
 - [bc](https://man.openbsd.org/bc), an arbitrary precision calculator language (```bc.lark```)
 - [The GEDCOM Standard](http://user.it.uu.se/~andersa/gedcom/) (```gedcom.lark```)
 - [eqn](https://man.openbsd.org/eqn), language reference for mandoc (```eqn.lark```)
+- [mdoc](https://man.openbsd.org/mdoc.7), semantic markup language for formatting manual pages (```mdoc.lark```)
 - MIME [Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml) (```mime.lark```)
 - Lua 5.1 language grammar specification (```lua.lark```)
 - [TAP13](https://testanything.org/tap-version-13-specification.html) - The Test Anything Protocol v13 (```tap13.lark```)

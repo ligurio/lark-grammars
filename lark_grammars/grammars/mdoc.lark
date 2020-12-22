@@ -1,0 +1,28 @@
+start           : mdoc
+
+mdoc            : comment+ prologue comment+ name_section comment+
+
+prologue        : ".Dd $Mdocdate$" NEWLINE ".Dt" PROGNAME SECTION NEWLINE ".Os" NEWLINE
+                
+name_section    : ".Sh" PROGNAME NEWLINE ".Nm" PROGNAME NEWLINE ".Nd" TEXTLINE NEWLINE
+
+comment         : ".\"" TEXTLINE NEWLINE
+
+DIGIT           : "0".."9"
+LCASE_LETTER    : "a".."z"
+UCASE_LETTER    : "A".."Z"
+ALPHA           : UCASE_LETTER | LCASE_LETTER
+ALPHANUM        : ALPHA [ ALPHA | DIGIT ]*
+SPACE           : " "
+TAB             : SPACE+
+
+NAME            : ALPHANUM+
+WORD            : ALPHANUM+
+NUMBER          : DIGIT+
+WS              : SPACE | TAB
+STRING          : WORD [ WS WORD+ ]
+
+NEWLINE         : "\n"
+PROGNAME        : NAME
+SECTION         : NAME
+TEXTLINE        : WORD | WORD WS
