@@ -1,0 +1,59 @@
+start		: eqn
+
+eqn             : box
+                | eqn box
+
+box             : text "{" eqn "}"
+                | "define" text text
+                | "ndefine" text text
+                | "tdefine" text text
+                | "gfont" text
+                | "gsize" text
+                | "set" text text
+                | "undef" text
+                | "sqrt" box
+                | box pos box
+                | box mark
+                | "matrix" "{" [col "{" list "}"]* "}"
+                | pile "{" list "}"
+                | font box
+                | "size" text box
+                | "left" text eqn ["right" text]
+
+col             : "lcol"
+                | "rcol"
+                | "ccol"
+                | "col"
+
+text            : ["^" | SPACE | " "]+
+                | ".*"
+
+pile            : "lpile"
+                | "cpile"
+                | "rpile"
+                | "pile"
+
+pos             : "over"
+                | "sup"
+                | "sub"
+                | "to"
+                | "from"
+
+mark	        : "dot"
+                | "dotdot"
+                | "hat"
+                | "tilde"
+                | "vec"
+                | "dyad"
+                | "bar"
+                | "under"
+
+font            : "roman"
+                | "italic"
+                | "bold"
+                | "fat"
+
+list            : eqn
+                | list "above" eqn
+
+SPACE           : [" " | /\t/]+

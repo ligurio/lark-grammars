@@ -4,6 +4,7 @@
 import argparse
 import os
 import sys
+import time
 import hypothesis
 
 from lark import Lark
@@ -20,6 +21,7 @@ def _build_path(name):
 
 grammar_files = {'bc': _build_path('bc.lark'),
                  'gedcom': _build_path('gedcom.lark'),
+                 'eqn': _build_path('eqn.lark'),
                  'lua': _build_path('lua.lark'),
                  'palindrome': _build_path('palindrome.lark'),
                  'phone_number': _build_path('phone_number.lark'),
