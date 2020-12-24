@@ -22,6 +22,7 @@ def _build_path(name):
 grammar_files = {'bc': _build_path('bc.lark'),
                  'gedcom': _build_path('gedcom.lark'),
                  'eqn': _build_path('eqn.lark'),
+                 'iso-8601': _build_path('iso-8601.lark'),
                  'lua': _build_path('lua.lark'),
                  'mdoc': _build_path('mdoc.lark'),
                  'mime': _build_path('mime.lark'),
