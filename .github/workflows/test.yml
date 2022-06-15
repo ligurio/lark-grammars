@@ -1,0 +1,21 @@
+name: Testing
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Setup requirements
+        run: pip install -r requirements.txt
+
+      - name: Run regression tests
+        run: python -m pytest tests/test_grammars.py
